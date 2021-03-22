@@ -49,7 +49,7 @@
             top: 0px;
             width: 100%;
             height: 428px;
-            background-color: #339af0;
+            background-color: #4BAF4B;
         }
 
         .background-body {
@@ -96,7 +96,7 @@
         input.field {
             width: 502px !important;
             height: 16px;
-
+            border-radius: 1px;
             background-color: #ffffff;
 
             padding: 18px;
@@ -185,7 +185,19 @@
             display: none;
         }
 
+
+
         .contents textarea.te-edit {
+            border-right: none;
+            border-top: none;
+            border-left: none;
+            resize: none;
+            border-bottom: 1px solid #212529;
+            width: 100%;
+            font-family: 'Spoqa Han Sans';
+        }
+
+        .contents input.te-edit {
             border-right: none;
             border-top: none;
             border-left: none;
@@ -305,14 +317,24 @@
             border-radius: 2px;
             background-color: #15aabf;
             border: none;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            color:#ffffff;
         }
     </style>
     <script>
         // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
         // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
-        function isValidContents(contents) {
+        function isValidContents(contents, title) {
             if (contents == '') {
                 alert('내용을 입력해주세요');
+                return false;
+            }
+            if (title == ''){
+                alert('제목을 입력해주세요.');
                 return false;
             }
             if (contents.trim().length > 140) {
@@ -341,22 +363,28 @@
             showEdits(id);
             let contents = $(`#${id}-contents`).text().trim();
             $(`#${id}-textarea`).val(contents);
+            let title = $(`#${id}-title`).text().trim();
+            $(`#${id}-textinput`).val(title);
         }
 
         function showEdits(id) {
+            $(`#${id}-editinput`).show();
             $(`#${id}-editarea`).show();
             $(`#${id}-submit`).show();
             $(`#${id}-delete`).show();
 
+            $(`#${id}-title`).hide();
             $(`#${id}-contents`).hide();
             $(`#${id}-edit`).hide();
         }
 
         function hideEdits(id) {
+            $(`#${id}-editinput`).hide();
             $(`#${id}-editarea`).hide();
             $(`#${id}-submit`).hide();
             $(`#${id}-delete`).hide();
 
+            $(`#${id}-title`).show();
             $(`#${id}-contents`).show();
             $(`#${id}-edit`).show();
         }
@@ -384,8 +412,8 @@
                         let title = message['title'];
                         let name = message['name'];
                         let text = message['text'];
-                        let modifiedAt = message['modifiedAt'];
-                        addHTML(id, title, name, text, modifiedAt);
+                        let modifiedAt = new Date(message['modifiedAt']);
+                        addHTML(id, title, name, text, time2str(modifiedAt));
                     }
                 }
             })
@@ -408,7 +436,10 @@
             <div class="contents">
             <div id="${id}-title" class="text">
             <h2>${title}</h2>
-
+            </div>
+            <div id="${id}-editinput" class="edit">
+            <input type="text" id="${id}-textinput" class="te-edit">
+            </div>
 
             <div id="${id}-contents" class="text">
             ${text}
@@ -417,7 +448,7 @@
             <div id="${id}-editarea" class="edit">
             <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
             </div>
-            </div>
+
                 <!-- 버튼 영역-->
                 <img id="${id}-edit" class="icon-start-edit" src="images/edit.png" alt="" onclick="editPost('${id}')">
                 <img id="${id}-delete" class="icon-delete" src="images/delete.png" alt="" onclick="deleteOne('${id}')">
@@ -435,7 +466,7 @@
             let contents = $('#contents').val();
             let title = $('#title').val();
                 // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
-            if (isValidContents(contents) == false) {
+            if (isValidContents(contents, title) == false) {
             return;
             }
                 // 3. genRandomName 함수를 통해 익명의 username을 만듭니다.
@@ -460,9 +491,9 @@
                 // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
                 let username = $(`#${id}-username`).text().trim();
                 let contents = $(`#${id}-textarea`).val().trim();
-                let title = $('#title').val();
+                let title = $(`#${id}-textinput`).val().trim();
                 // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
-                if (isValidContents(contents) == false) {
+                if (isValidContents(contents, title) == false) {
                     return;
                 }
                 // 3. 전달할 data JSON으로 만듭니다.
@@ -474,7 +505,7 @@
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (response) {
-                        alert('메시지 변경에 성공하였습니다.');
+                        alert('게시글 수정에 성공하였습니다.');
                         window.location.reload();
                     }
                 });
@@ -509,6 +540,24 @@
                     $('#container').removeClass('active');
                 })
             })
+
+            function time2str(date) {
+                let today = new Date()
+                let time = (today - date) / 1000 / 60  // 분
+
+                if (time < 60) {
+                    return parseInt(time) + "분 전"
+                }
+                time = time / 60  // 시간
+                if (time < 24) {
+                    return parseInt(time) + "시간 전"
+                }
+                time = time / 24
+                if (time < 7) {
+                    return parseInt(time) + "일 전"
+                }
+                return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+            }
 
 
     </script>

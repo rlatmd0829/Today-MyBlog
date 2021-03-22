@@ -23,7 +23,7 @@ public class BoardController {
 
     @GetMapping("/api/myblog")
     public List<Board> getBoard(){
-        return boardRepository.findAll();
+        return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
     @DeleteMapping("/api/myblog/{id}")
