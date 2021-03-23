@@ -1,11 +1,15 @@
-# myblog
-* 항해99 기간동안 내용 기록
+# Today-MyBlog
+* 하루를 돌아보고 기록하는 공간입니다.
+* 여러분들의 하루를 공유해주세요!
+
+# 설명
 * CRUD를 활용한 스프링 프로젝트
 * modal을 사용한 원페이지 구현
 * Timezone을 활용한 시간순 정렬
+* 익명의 사용자이름을 활용한 익명성 보장
 
 # API 설계
-
+* API
 ![image](https://user-images.githubusercontent.com/70622731/111968346-64c71780-8b3c-11eb-9066-5d62850bffda.png)
 
 # 화면구현
