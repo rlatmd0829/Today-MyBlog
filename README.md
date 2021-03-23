@@ -15,11 +15,11 @@
 
 
 # 화면구현
-* 메인화면
+### 메인화면
 ![image](https://user-images.githubusercontent.com/70622731/112148553-5acb1480-8c21-11eb-88f0-5d7ba359dbc5.png)
 
-* 게시글작성
+### 게시글작성
 ![image](https://user-images.githubusercontent.com/70622731/112148811-aaa9db80-8c21-11eb-9343-1ac8396bc58c.png)
 
-* 게시글 상세보기
+### 게시글 상세보기
 ![image](https://user-images.githubusercontent.com/70622731/112148897-c1503280-8c21-11eb-9ea1-21e3230d7f7b.png)
