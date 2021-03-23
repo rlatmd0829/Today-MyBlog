@@ -9,8 +9,10 @@
 * 익명의 사용자이름을 활용한 익명성 보장
 
 # API 설계
-* API
 ![image](https://user-images.githubusercontent.com/70622731/111968346-64c71780-8b3c-11eb-9066-5d62850bffda.png)
+
+
+
 
 # 화면구현
 * 메인화면
